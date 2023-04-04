@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ChatJPT</title>
+  </head>
+  <body>
+    <form>
+      <label for="question">Ask a question:</label>
+      <input type="text" id="question" name="question">
+      <button type="submit">Submit</button>
+    </form>
+    
+    <div id="answer"></div>
+ 
+    <script>
+      const form = document.querySelector('form');
+      const answer = document.querySelector('#answer');
+ 
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+ 
+        const question = document.querySelector('#question').value;
+        getArticle(question);
+      });
+ 
+      async function getArticle(question) {
+        const url = `https://en.wikipedia.org/api/rest_v1/page/random/summary`;
+        const response = await fetch(url);
+        const data = await response.json();
+        const summary = data.extract.substr(0, 500) + '...';
+ 
+        answer.innerHTML = `<p>${summary}</p>`;
+      }
+    </script>
+  </body>
+</html>
